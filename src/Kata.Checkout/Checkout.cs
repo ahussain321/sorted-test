@@ -25,6 +25,18 @@ namespace Kata.Checkout
             }
         }
 
+        public decimal Total()
+        {
+            var totalPrice = decimal.Zero;
+
+            foreach (var scannedItem in _scannedItems)
+            {
+                totalPrice += (scannedItem.Value.UnitPrice * scannedItem.Value.Quantity);
+            }
+
+            return totalPrice;
+        }
+
         public Dictionary<string, Item> GetScannedItems()
         {
             return _scannedItems;

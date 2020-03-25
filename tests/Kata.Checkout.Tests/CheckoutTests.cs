@@ -31,7 +31,7 @@ namespace Kata.Checkout.Tests
         }
 
         [TestMethod]
-        public void GivenScan_WhenIScanMultipleItemsOfSameSKU_ThenItemQuantityCorect()
+        public void GivenScan_WhenIScanMultipleItemsOfSameSKU_ThenScannedItemQuantityCorect()
         {
 
             var checkout = new Checkout();
@@ -60,6 +60,23 @@ namespace Kata.Checkout.Tests
 
             Assert.AreEqual(2, scannedItems[item1.SKU].Quantity);
 
+        }
+
+        [TestMethod]
+        public void GivenTotal_WhenIScanMultipleItems_ThenCorrectTotalPriceReturned()
+        {
+
+            var checkout = new Checkout();
+
+            checkout.Scan(new Item { SKU = "A99", UnitPrice = 0.5M});
+            checkout.Scan(new Item { SKU = "B15", UnitPrice = 0.3M });
+            checkout.Scan(new Item { SKU = "C40", UnitPrice = 0.6M });
+
+            var total = checkout.Total();
+
+            var expectedTotal = 0.5M + 0.3M + 0.6M;
+
+            Assert.AreEqual(expectedTotal, total);
         }
     }
 }
