@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Kata.Checkout.Calculator;
 using Kata.Checkout.Models;
 
 namespace Kata.Checkout
@@ -7,10 +8,12 @@ namespace Kata.Checkout
     public class Checkout : ICheckout
     {
         private Dictionary<string, Item> _scannedItems;
+        private readonly ICalculator _calculator;
 
-        public Checkout()
+        public Checkout(ICalculator calculator)
         {
             _scannedItems = new Dictionary<string, Item>();
+            _calculator = calculator;
         }
 
         public void Scan(Item item)
@@ -31,7 +34,7 @@ namespace Kata.Checkout
 
             foreach (var scannedItem in _scannedItems)
             {
-                totalPrice += (scannedItem.Value.UnitPrice * scannedItem.Value.Quantity);
+                totalPrice += _calculator.GetItemTotal(scannedItem.Value);
             }
 
             return totalPrice;
